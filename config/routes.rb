@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :categories
+  resources :photographers
   resources :order_details
   resources :customers
   resources :taxes
