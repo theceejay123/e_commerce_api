@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_31_164105) do
+ActiveRecord::Schema.define(version: 2020_03_31_202450) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -38,6 +38,46 @@ ActiveRecord::Schema.define(version: 2020_03_31_164105) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "customers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "address"
+    t.string "phone_number"
+    t.integer "province_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["province_id"], name: "index_customers_on_province_id"
+  end
+
+  create_table "details", force: :cascade do |t|
+    t.decimal "price"
+    t.integer "quantity"
+    t.integer "order_detail_id", null: false
+    t.integer "product_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_detail_id"], name: "index_details_on_order_detail_id"
+    t.index ["product_id"], name: "index_details_on_product_id"
+  end
+
+  create_table "order_details", force: :cascade do |t|
+    t.integer "reference_number"
+    t.decimal "total"
+    t.decimal "historical_tax"
+    t.integer "customer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_order_details_on_customer_id"
+  end
+
   create_table "pages", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -46,4 +86,61 @@ ActiveRecord::Schema.define(version: 2020_03_31_164105) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "photographers", force: :cascade do |t|
+    t.string "full_name"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.decimal "price"
+    t.integer "photographer_id", null: false
+    t.integer "category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_products_on_category_id"
+    t.index ["photographer_id"], name: "index_products_on_photographer_id"
+  end
+
+  create_table "products_sizes", force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.integer "size_id", null: false
+    t.index ["product_id"], name: "index_products_sizes_on_product_id"
+    t.index ["size_id"], name: "index_products_sizes_on_size_id"
+  end
+
+  create_table "provinces", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "sizes", force: :cascade do |t|
+    t.string "name"
+    t.string "size"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "taxes", force: :cascade do |t|
+    t.string "name"
+    t.decimal "tax"
+    t.integer "province_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["province_id"], name: "index_taxes_on_province_id"
+  end
+
+  add_foreign_key "customers", "provinces"
+  add_foreign_key "details", "order_details"
+  add_foreign_key "details", "products"
+  add_foreign_key "order_details", "customers"
+  add_foreign_key "products", "categories"
+  add_foreign_key "products", "photographers"
+  add_foreign_key "products_sizes", "products"
+  add_foreign_key "products_sizes", "sizes"
+  add_foreign_key "taxes", "provinces"
 end
