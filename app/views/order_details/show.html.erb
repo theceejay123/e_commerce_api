@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Reference number:</strong>
+  <%= @order_detail.reference_number %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @order_detail.total %>
+</p>
+
+<p>
+  <strong>Historical tax:</strong>
+  <%= @order_detail.historical_tax %>
+</p>
+
+<p>
+  <strong>Customer:</strong>
+  <%= @order_detail.customer_id %>
+</p>
+
+<%= link_to 'Edit', edit_order_detail_path(@order_detail) %> |
+<%= link_to 'Back', order_details_path %>

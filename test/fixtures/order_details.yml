@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  reference_number: 1
+  total: 9.99
+  historical_tax: 9.99
+  customer: one
+
+two:
+  reference_number: 1
+  total: 9.99
+  historical_tax: 9.99
+  customer: two
