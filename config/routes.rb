@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   resources :customers
   resources :taxes
   resources :provinces
-  resources :pages
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
+  before_action :set_format
   before_action :set_page, only: %i[show edit update destroy]
 
   # GET /pages.json
@@ -54,6 +55,11 @@ class PagesController < ApplicationController
   end
 
   private
+
+  # Format to json
+  def set_format
+    request.format = :json
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_page

@@ -1,5 +1,6 @@
 class TaxesController < ApplicationController
-  before_action :set_tax, only: [:show, :edit, :update, :destroy]
+  before_action :set_format
+  before_action :set_tax, only: %i[show edit update destroy]
 
   # GET /taxes
   # GET /taxes.json
@@ -9,8 +10,7 @@ class TaxesController < ApplicationController
 
   # GET /taxes/1
   # GET /taxes/1.json
-  def show
-  end
+  def show; end
 
   # GET /taxes/new
   def new
@@ -18,8 +18,7 @@ class TaxesController < ApplicationController
   end
 
   # GET /taxes/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /taxes
   # POST /taxes.json
@@ -28,7 +27,7 @@ class TaxesController < ApplicationController
 
     respond_to do |format|
       if @tax.save
-        format.html { redirect_to @tax, notice: 'Tax was successfully created.' }
+        format.html { redirect_to @tax, notice: "Tax was successfully created." }
         format.json { render :show, status: :created, location: @tax }
       else
         format.html { render :new }
@@ -42,7 +41,7 @@ class TaxesController < ApplicationController
   def update
     respond_to do |format|
       if @tax.update(tax_params)
-        format.html { redirect_to @tax, notice: 'Tax was successfully updated.' }
+        format.html { redirect_to @tax, notice: "Tax was successfully updated." }
         format.json { render :show, status: :ok, location: @tax }
       else
         format.html { render :edit }
@@ -56,19 +55,25 @@ class TaxesController < ApplicationController
   def destroy
     @tax.destroy
     respond_to do |format|
-      format.html { redirect_to taxes_url, notice: 'Tax was successfully destroyed.' }
+      format.html { redirect_to taxes_url, notice: "Tax was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_tax
-      @tax = Tax.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def tax_params
-      params.require(:tax).permit(:name, :tax, :province_id)
-    end
+  # Format to json
+  def set_format
+    request.format = :json
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_tax
+    @tax = Tax.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def tax_params
+    params.require(:tax).permit(:name, :tax, :province_id)
+  end
 end
