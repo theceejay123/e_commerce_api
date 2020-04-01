@@ -1,5 +1,6 @@
 class PhotographersController < ApplicationController
-  before_action :set_photographer, only: [:show, :edit, :update, :destroy]
+  before_action :set_format
+  before_action :set_photographer, only: %i[show edit update destroy]
 
   # GET /photographers
   # GET /photographers.json
@@ -9,8 +10,7 @@ class PhotographersController < ApplicationController
 
   # GET /photographers/1
   # GET /photographers/1.json
-  def show
-  end
+  def show; end
 
   # GET /photographers/new
   def new
@@ -18,8 +18,7 @@ class PhotographersController < ApplicationController
   end
 
   # GET /photographers/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /photographers
   # POST /photographers.json
@@ -28,7 +27,7 @@ class PhotographersController < ApplicationController
 
     respond_to do |format|
       if @photographer.save
-        format.html { redirect_to @photographer, notice: 'Photographer was successfully created.' }
+        format.html { redirect_to @photographer, notice: "Photographer was successfully created." }
         format.json { render :show, status: :created, location: @photographer }
       else
         format.html { render :new }
@@ -42,7 +41,7 @@ class PhotographersController < ApplicationController
   def update
     respond_to do |format|
       if @photographer.update(photographer_params)
-        format.html { redirect_to @photographer, notice: 'Photographer was successfully updated.' }
+        format.html { redirect_to @photographer, notice: "Photographer was successfully updated." }
         format.json { render :show, status: :ok, location: @photographer }
       else
         format.html { render :edit }
@@ -56,19 +55,25 @@ class PhotographersController < ApplicationController
   def destroy
     @photographer.destroy
     respond_to do |format|
-      format.html { redirect_to photographers_url, notice: 'Photographer was successfully destroyed.' }
+      format.html { redirect_to photographers_url, notice: "Photographer was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_photographer
-      @photographer = Photographer.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def photographer_params
-      params.require(:photographer).permit(:full_name, :description)
-    end
+  # Format to json
+  def set_format
+    request.format = :json
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_photographer
+    @photographer = Photographer.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def photographer_params
+    params.require(:photographer).permit(:full_name, :description)
+  end
 end
