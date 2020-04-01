@@ -1,5 +1,6 @@
 class DetailsController < ApplicationController
-  before_action :set_detail, only: [:show, :edit, :update, :destroy]
+  before_action :set_format
+  before_action :set_detail, only: %i[show edit update destroy]
 
   # GET /details
   # GET /details.json
@@ -9,8 +10,7 @@ class DetailsController < ApplicationController
 
   # GET /details/1
   # GET /details/1.json
-  def show
-  end
+  def show; end
 
   # GET /details/new
   def new
@@ -18,8 +18,7 @@ class DetailsController < ApplicationController
   end
 
   # GET /details/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /details
   # POST /details.json
@@ -28,7 +27,7 @@ class DetailsController < ApplicationController
 
     respond_to do |format|
       if @detail.save
-        format.html { redirect_to @detail, notice: 'Detail was successfully created.' }
+        format.html { redirect_to @detail, notice: "Detail was successfully created." }
         format.json { render :show, status: :created, location: @detail }
       else
         format.html { render :new }
@@ -42,7 +41,7 @@ class DetailsController < ApplicationController
   def update
     respond_to do |format|
       if @detail.update(detail_params)
-        format.html { redirect_to @detail, notice: 'Detail was successfully updated.' }
+        format.html { redirect_to @detail, notice: "Detail was successfully updated." }
         format.json { render :show, status: :ok, location: @detail }
       else
         format.html { render :edit }
@@ -56,19 +55,25 @@ class DetailsController < ApplicationController
   def destroy
     @detail.destroy
     respond_to do |format|
-      format.html { redirect_to details_url, notice: 'Detail was successfully destroyed.' }
+      format.html { redirect_to details_url, notice: "Detail was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_detail
-      @detail = Detail.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def detail_params
-      params.require(:detail).permit(:price, :quantity, :order_detail_id, :product_id)
-    end
+  # Format to json
+  def set_format
+    request.format = :json
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_detail
+    @detail = Detail.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def detail_params
+    params.require(:detail).permit(:price, :quantity, :order_detail_id, :product_id)
+  end
 end
