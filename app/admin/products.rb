@@ -6,6 +6,18 @@ ActiveAdmin.register Product do
   #
   permit_params :name, :description, :price, :photographer_id, :category_id, :prod_image
 
+  index do
+    selectable_column
+    id_column
+    column :name
+    column :description
+    column :price
+    column :photographer_id
+    column :category_id
+    column :prod_image
+    actions
+  end
+
   # Formtastic
   form do |f|
     f.semantic_errors

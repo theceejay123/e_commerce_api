@@ -32,10 +32,15 @@ gem 'devise'
 # Faker data
 gem 'faker'
 
+# Access randomr records fast
+gem 'quick_random_records'
+
 # Web scraper
 gem 'nokogiri'
 gem 'httparty'
-gem 'byebug'
+
+# CORS
+gem 'rack-cors'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

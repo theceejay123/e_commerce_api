@@ -70,6 +70,24 @@ pages.each do |page|
   Page.create(title: page[:title], content: page[:content], permalink: page[:permalink])
 end
 
+# Seeding for Products
+products = Dir.glob("../images/*.jpg").map{ |s| File.basename(s)}
+products.each do |each_prod|
+  name = Faker::Games::Zelda.unique.item
+  description = "#{name}, #{Date.today-rand(100000)}, Untitled" #=> "Master Sword"
+  price = Faker::Number.decimal(l_digits: 2, r_digits: 2)
+  product = Product.create(
+    name: name,
+    description: description,
+    price: price,
+    photographer_id: Photographer.random_records(1).first.id,
+    category_id: Category.random_records(1).first.id
+  )
+
+  product.prod_image.attach(io: File.open("../images/#{each_prod}"), filename: "image-#{product.name}.jpg", content_type: 'image/jpeg')
+end
+# product.prod_image.attach(io: downloaded_image, filename: "image-#{dish.name}.jpg")
+
 puts ("Default Pages - #{Page.count}")
 puts ("Photographers - #{Photographer.count}")
 puts ("Province - #{Province.count}")
