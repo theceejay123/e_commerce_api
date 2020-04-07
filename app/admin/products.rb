@@ -6,15 +6,23 @@ ActiveAdmin.register Product do
   #
   permit_params :name, :description, :price, :photographer_id, :category_id, :prod_image
 
+  controller do
+    def scoped_collection
+      super.includes :photographer, :category # prevents N+1 queries to your database
+    end
+  end
+
   index do
     selectable_column
     id_column
     column :name
     column :description
     column :price
-    column :photographer_id
-    column :category_id
-    column :prod_image
+    column :photographer
+    column :category
+    column "Image" do |product|
+      image_tag product.prod_image, size: "50x50"
+    end
     actions
   end
 
