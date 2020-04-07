@@ -5,7 +5,7 @@ class TaxesController < ApplicationController
   # GET /taxes
   # GET /taxes.json
   def index
-    @taxes = Tax.all
+    @taxes = Tax.includes(:province).all
   end
 
   # GET /taxes/1

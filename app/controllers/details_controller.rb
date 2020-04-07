@@ -5,7 +5,7 @@ class DetailsController < ApplicationController
   # GET /details
   # GET /details.json
   def index
-    @details = Detail.all
+    @details = Detail.includes(:order_detail, :product).all
   end
 
   # GET /details/1

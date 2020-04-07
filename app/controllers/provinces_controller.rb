@@ -5,7 +5,7 @@ class ProvincesController < ApplicationController
   # GET /provinces
   # GET /provinces.json
   def index
-    @provinces = Province.all
+    @provinces = Province.includes(:taxes, :customers).all
   end
 
   # GET /provinces/1

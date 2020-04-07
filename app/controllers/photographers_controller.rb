@@ -5,7 +5,7 @@ class PhotographersController < ApplicationController
   # GET /photographers
   # GET /photographers.json
   def index
-    @photographers = Photographer.all
+    @photographers = Photographer.includes(:products).all
   end
 
   # GET /photographers/1

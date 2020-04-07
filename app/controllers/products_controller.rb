@@ -5,7 +5,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.includes(:photographer, :category).all
+    @products = Product.includes(:photographer, :category, :sizes, :order_details).all
   end
 
   # GET /products/1
