@@ -1,2 +1,8 @@
-json.extract! tax, :id, :name, :tax, :province_id, :created_at, :updated_at
-json.url tax_url(tax, format: :json)
+json.extract! tax, :id, :name, :tax
+
+json.province do
+  json.id tax.province.id
+  json.name tax.province.name
+end
+
+json.url tax_url(tax)
