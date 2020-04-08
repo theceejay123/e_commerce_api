@@ -86,6 +86,28 @@ products.each do |each_prod|
 
   product.prod_image.attach(io: File.open("../images/#{each_prod}"), filename: "image-#{product.name}.jpg", content_type: 'image/jpeg')
 end
+
+# Extra products to add if I do not have 100 images to use.
+if products.count < 100
+  NUMBER_OF_PRODUCTS_TO_ADD = 100 - products.count
+
+  NUMBER_OF_PRODUCTS_TO_ADD.times do
+    name = Faker::Games::Zelda.unique.item
+    description = "#{name}, #{Date.today-rand(100000)}, Untitled" #=> "Master Sword"
+    price = Faker::Number.decimal(l_digits: 2, r_digits: 2)
+    product = Product.create(
+      name: name,
+      description: description,
+      price: price,
+      photographer_id: Photographer.random_records(1).first.id,
+      category_id: Category.random_records(1).first.id
+    )
+
+    downloaded_image = open(URI.escape("https://source.unsplash.com/random"))
+    product.prod_image.attach(io: downloaded_image, filename: "image-#{name}-extra.jpg")
+  end
+end
+
 # product.prod_image.attach(io: downloaded_image, filename: "image-#{dish.name}.jpg")
 
 puts ("Default Pages - #{Page.count}")
