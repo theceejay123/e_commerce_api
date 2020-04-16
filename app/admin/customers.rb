@@ -4,7 +4,7 @@ ActiveAdmin.register Customer do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :first_name, :last_name, :email, :address, :phone_number, :province_id, :cust_image
+  permit_params :first_name, :last_name, :email, :address, :phone_number, :province_id, :cust_image, :password
 
   # Formtastic
   form do |f|

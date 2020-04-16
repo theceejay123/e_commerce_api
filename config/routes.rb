@@ -5,7 +5,12 @@ Rails.application.routes.draw do
   resources :categories
   resources :photographers
   resources :order_details
-  resources :customers
+
+  resources :customers, only: %i[create new]
+  post "/login", to: "auth#login"
+  get "/auto_login", to: "auth#auto_login"
+  get "/user_is_authed", to: "auth#user_is_authed"
+
   resources :taxes
   resources :provinces
   resources :pages

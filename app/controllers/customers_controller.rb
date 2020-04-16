@@ -1,6 +1,5 @@
 class CustomersController < ApplicationController
-  before_action :set_format
-  before_action :set_customer, only: %i[show edit update destroy]
+  skip_before_action :require_login, only: [:create]
 
   # GET /customers
   # GET /customers.json
@@ -23,16 +22,15 @@ class CustomersController < ApplicationController
   # POST /customers
   # POST /customers.json
   def create
-    @customer = Customer.new(customer_params)
+    customer = Customer.new(customer_params)
 
-    respond_to do |format|
-      if @customer.save
-        format.html { redirect_to @customer, notice: "Customer was successfully created." }
-        format.json { render :show, status: :created, location: @customer }
-      else
-        format.html { render :new }
-        format.json { render json: @customer.errors, status: :unprocessable_entity }
-      end
+    if customer.valid?
+      payload = { customer_id: customer.id }
+      token = encode_token(payload)
+      puts token
+      render json: { customer: customer, jwt: token }
+    else
+      render json: { errors: user.errors.full_messages }, status: :not_acceptable
     end
   end
 
@@ -74,6 +72,6 @@ class CustomersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def customer_params
-    params.require(:customer).permit(:first_name, :last_name, :email, :address, :phone_number, :province_id)
+    params.require(:customer).permit(:first_name, :last_name, :email, :address, :phone_number, :province_id, :password)
   end
 end
