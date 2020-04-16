@@ -1,5 +1,7 @@
 class CustomersController < ApplicationController
   skip_before_action :require_login, only: [:create]
+  before_action :set_format
+  before_action :set_customer, only: %i[show edit update destroy]
 
   # GET /customers
   # GET /customers.json
@@ -7,7 +9,7 @@ class CustomersController < ApplicationController
     @customers = Customer.includes(:province, :order_details, :tax).all
   end
 
-  # GET /customers/1
+  # GET /customers/1z
   # GET /customers/1.json
   def show; end
 
