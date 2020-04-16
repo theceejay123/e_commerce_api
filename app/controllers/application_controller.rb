@@ -1,4 +1,27 @@
 class ApplicationController < ActionController::Base
+  # helper_method :login!, :logged_in?, :current_customer, :authorized_customer?, :logout!
+
+  # def login!
+  #   session[:customer_id] = @customer.id
+  # end
+
+  # def logged_in?
+  #   !!session[:customer_id]
+  # end
+
+  # def current_customer
+  #   @current_customer ||= Customer.find(session[:customer_id]) if session[:customer_id]
+  # end
+
+  # def authorized_customer?
+  #   @customer == current_customer
+  # end
+
+  # def logout!
+  #   session.clear
+  # end
+
+  skip_before_action :verify_authenticity_token
   before_action :require_login
 
   def encode_token(payload)
@@ -32,8 +55,6 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    format.json do
-      render json: { message: "Please Login" }, status: :unauthorized unless logged_in?
-    end
+    render json: { message: "Please Login" }, status: :unauthorized unless logged_in?
   end
 end

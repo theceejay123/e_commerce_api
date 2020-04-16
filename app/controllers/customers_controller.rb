@@ -1,15 +1,23 @@
 class CustomersController < ApplicationController
-  skip_before_action :require_login, only: [:create]
-  before_action :set_format
-  before_action :set_customer, only: %i[show edit update destroy]
+  skip_before_action :require_login, only: %i[create index]
 
   # GET /customers
   # GET /customers.json
   def index
-    @customers = Customer.includes(:province, :order_details, :tax).all
+    @customers = Customer.includes(:province, :order_details).all
+    if @customers
+      render json: {
+        customers: @customers
+      }
+    else
+      render json: {
+        status: 500,
+        errors: ["no users found"]
+      }
+    end
   end
 
-  # GET /customers/1z
+  # GET /customers/1
   # GET /customers/1.json
   def show; end
 
@@ -24,15 +32,16 @@ class CustomersController < ApplicationController
   # POST /customers
   # POST /customers.json
   def create
-    customer = Customer.new(customer_params)
+    @customer = Customer.new(customer_params)
 
-    if customer.valid?
-      payload = { customer_id: customer.id }
+    if @customer.valid?
+      @customer.save
+      payload = { customer_id: @customer.id }
       token = encode_token(payload)
       puts token
-      render json: { customer: customer, jwt: token }
+      render json: { customer: @customer, jwt: token }
     else
-      render json: { errors: user.errors.full_messages }, status: :not_acceptable
+      render json: { errors: @customer.errors.full_messages }, status: :not_acceptable
     end
   end
 
@@ -74,6 +83,6 @@ class CustomersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def customer_params
-    params.require(:customer).permit(:first_name, :last_name, :email, :address, :phone_number, :province_id, :password)
+    params.require(:customer).permit(:first_name, :last_name, :email, :address, :phone_number, :province_id, :password_digest)
   end
 end

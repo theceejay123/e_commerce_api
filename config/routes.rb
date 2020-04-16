@@ -6,10 +6,7 @@ Rails.application.routes.draw do
   resources :photographers
   resources :order_details
 
-  resources :customers, only: %i[create new]
-  post "/login", to: "auth#login"
-  get "/auto_login", to: "auth#auto_login"
-  get "/user_is_authed", to: "auth#user_is_authed"
+  resources :customers, only: %i[create show index]
 
   resources :taxes
   resources :provinces

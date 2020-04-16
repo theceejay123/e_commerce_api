@@ -29,6 +29,7 @@ gem 'image_processing', '~> 1.2'
 gem 'activeadmin'
 gem 'devise'
 gem 'jwt'
+gem 'aws-sdk-s3'
 
 # Faker data
 gem 'faker'
