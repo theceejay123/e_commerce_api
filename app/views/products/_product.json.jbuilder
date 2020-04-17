@@ -7,7 +7,7 @@ end
 
 json.category do
   json.id product.category.id
-  json.name product.category.id
+  json.name product.category.name
 end
 
 json.image_url url_for(product.prod_image)

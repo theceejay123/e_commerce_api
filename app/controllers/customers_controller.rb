@@ -1,5 +1,5 @@
 class CustomersController < ApplicationController
-  skip_before_action :require_login, only: %i[create index]
+  before_action :require_login, except: %i[create index new]
 
   # GET /customers
   # GET /customers.json
@@ -83,6 +83,6 @@ class CustomersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def customer_params
-    params.require(:customer).permit(:first_name, :last_name, :email, :address, :phone_number, :province_id, :password_digest)
+    params.require(:customer).permit(:first_name, :last_name, :email, :address, :phone_number, :province_id, :password)
   end
 end

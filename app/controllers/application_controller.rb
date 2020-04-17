@@ -22,7 +22,6 @@ class ApplicationController < ActionController::Base
   # end
 
   skip_before_action :verify_authenticity_token
-  before_action :require_login
 
   def encode_token(payload)
     JWT.encode(payload, "c9294246-feb4-477f-b424-5692e641b7fd")
@@ -42,7 +41,7 @@ class ApplicationController < ActionController::Base
   end
 
   def decoded_token
-    token = auth_header.split(" ")[1]
+    token = (auth_header.split(" ")[1] unless auth_header.nil?)
     begin
       JWT.decode(token, "c9294246-feb4-477f-b424-5692e641b7fd", true, algorithm: "HS256")
     rescue JWT::DecodeError
