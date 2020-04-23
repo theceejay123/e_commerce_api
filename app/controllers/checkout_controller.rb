@@ -90,8 +90,8 @@ class CheckoutController < ApplicationController
     products = Product.find(ids)
     customer = Customer.find(customer_id)
 
-    products.each do |item|
-      total_amount += item.price
+    products.each_with_index do |item, index|
+      total_amount += item.price * quantities[index]
     end
 
     customer.province.taxes.each do |item|
@@ -101,7 +101,7 @@ class CheckoutController < ApplicationController
     order = customer.order_details.create(
       reference_number: payment_intent.charges.data[0].created,
       historical_tax:   total_tax_amount,
-      total:            total_amount
+      total:            payment_intent.amount / 100
     )
 
     products.each_with_index do |item, index|
@@ -112,6 +112,6 @@ class CheckoutController < ApplicationController
       )
     end
 
-    render json: { order_details: order.details, order: order, products: order.products }
+    render json: { order_details: order.details, order: order, products: order.products, payment_intent: payment_intent, session: session }
   end
 end
