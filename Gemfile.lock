@@ -184,7 +184,7 @@ GEM
     polyamorous (2.3.2)
       activerecord (>= 5.2.1)
     public_suffix (4.0.3)
-    puma (4.3.3)
+    puma (4.3.5)
       nio4r (~> 2.0)
     quick_random_records (0.3.2)
       activerecord (>= 3)
@@ -312,7 +312,7 @@ DEPENDENCIES
   jwt
   listen (>= 3.0.5, < 3.2)
   nokogiri
-  puma (~> 4.1)
+  puma (~> 4.3)
   quick_random_records
   rack-cors
   rails (~> 6.0.2, >= 6.0.2.2)
